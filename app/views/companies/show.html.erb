@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @company.name %>
+</p>
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
+
+
+<%= form_with(model:[ @company, @employee ]) do |form| %>
+	<%= form.hidden_field :company_id, value: @company.id %>
+	<%=	form.label :first_name, "Nombre" %>
+	<%= form.text_field :first_name %> 
+	<%= form.label :last_name, "Apellido" %> 
+	<%= form.text_field :last_name %> 
+	<%= form.label :email, "Mail" %> 
+	<%= form.text_field :email %> 
+	<%= form.label :area_id, "Area" %> 
+	<%= form.select :area_id, Area.pluck(:name, :id) %>
+	<p></p>
+	<%= form.submit "Enviar" %>
+<% end %>
+
+<table>
+	<tr>
+		<th>Nombre</th>
+		<th>Apellido</th>
+		<th>Mail</th>
+		<th>Area</th>
+	</tr>
+	<% @company.employees.each do |employee| %>
+	<tr>
+		<td><%= employee.first_name %></td>
+		<td><%= employee.last_name %></td>
+		<td><%= employee.email %></td>
+		<td><%= employee.area.name %></td>
+		<td><%= link_to 'Borrar', company_employee_path(@company, employee), method: :delete %> </td>
+	</tr>
+	<% end%>
+</table>
